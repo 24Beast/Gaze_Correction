@@ -1,0 +1,8 @@
+Link for trained models- https://drive.google.com/drive/folders/1m4b6jD5Vb76PDpiR6Jp_doYUfFDOOnBP?usp=sharing
+Correcting Right Eye model, so probably avoid it
+
+This model is loosely based on Denoising AutoEncoders. While in Denoising AutoEncoders, the Encoder compresses higher dimensional data 
+to lower dimensional dataspace hoping that the lossy compression leads to a drop in the noise of the image and Decoder reconstructs a 
+noiseless higher dimensional object from the lower dimensional data. In our model, the Encoder compresses higher dimensional data to lower 
+dimensional dataspace retaining essential features, the decoder model not only reconstructs a higher dimensional image but, also corrects 
+the gaze direction simultaneously.
