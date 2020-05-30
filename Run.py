@@ -8,8 +8,13 @@ class Pred:
         self.detector = dlib.get_frontal_face_detector()
         self.predictor = dlib.shape_predictor("F:/Models/shape_predictor_68_face_landmarks.dat")
         self.model = load_model("F:/Projects/Beast/Models/L/L.h5")
+        self.kernel = np.array([[-1,-1,-1],[-1,9,-1],[-1,-1,-1]])
         print("Models Initialized")
     
+    def sharpen(self,frame):
+        sharp_frame = cv2.filter2D(frame, -1, self.kernel)
+        return sharp_frame
+        
     def get_eyes(self,frame):
         #Currently for a single face only
         faces = self.detector(frame)
@@ -37,13 +42,16 @@ class Pred:
             R_roi_corners = np.array([[(shape.part(i).x-R_min_x,shape.part(i).y-R_min_y) for i in range(36,42)]])
             R_mask = cv2.fillPoly(np.zeros((R_max_y-R_min_y,R_max_x-R_min_x)),R_roi_corners,(255))
             R_eye = np.reshape(cv2.resize(frame[R_min_y:R_max_y,R_min_x:R_max_x],(50,50)),(50,50,1))
+            for i in range(10):
+                L_eye = self.sharpen(L_eye)
+                R_eye = self.sharpen(R_eye)
         return L_eye,R_eye,[L_min_y,L_max_y,L_min_x,L_max_x],[R_min_y,R_max_y,R_min_x,R_max_x],L_mask.astype(np.uint8),R_mask.astype(np.uint8)
 
     def get_pred(self,frame):
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         L_eye,R_eye,L_coords,R_coords,L_mask,R_mask = self.get_eyes(gray)
         if(type(L_eye)==int):
-            return frame,np.zeros((10,10))
+            return frame
         L_eye = np.reshape(L_eye,(50,50,1))/255
         R_eye = np.reshape(cv2.flip(R_eye,1),(50,50,1))/255
         L_eye,R_eye = self.model.predict(np.array([L_eye,R_eye]))
@@ -60,8 +68,8 @@ class Pred:
         return frame
 
 pred = Pred()
-vid = cv2.VideoCapture(0)
-out = cv2.VideoWriter('F:/Projects/Beast/outpy_1.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 30, (640,480))
+vid = cv2.VideoCapture("rec2.mp4")
+out = cv2.VideoWriter('F:/Projects/Beast/outpy_4.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 30, (640,480))
 print("Starting Recording")
 while 1:
     ret,img = vid.read()
