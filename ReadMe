@@ -6,3 +6,5 @@ to lower dimensional dataspace hoping that the lossy compression leads to a drop
 noiseless higher dimensional object from the lower dimensional data. In our model, the Encoder compresses higher dimensional data to lower 
 dimensional dataspace retaining essential features, the decoder model not only reconstructs a higher dimensional image but, also corrects 
 the gaze direction simultaneously.
+
+![] (GIF'.gif)
