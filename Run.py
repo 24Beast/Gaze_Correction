@@ -44,8 +44,8 @@ class Pred:
         L_eye = L_eye.astype(np.uint8)
         R_eye = cv2.resize(cv2.flip(R_eye,1),(R_coords[3]-R_coords[2],R_coords[1]-R_coords[0]))*255
         R_eye = R_eye.astype(np.uint8)
-        gray[L_coords[0]:L_coords[1],L_coords[2]:L_coords[3]] = L_eye
-        gray[R_coords[0]:R_coords[1],R_coords[2]:R_coords[3]] = R_eye
+        gray[L_coords[0]+9:L_coords[1]-9,L_coords[2]+9:L_coords[3]-9] = L_eye[9:-9,9:-9]
+        gray[R_coords[0]+9:R_coords[1]-9,R_coords[2]+9:R_coords[3]-9] = R_eye[9:-9,9:-9]
         return gray
 
 pred = Pred()
