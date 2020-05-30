@@ -7,4 +7,4 @@ noiseless higher dimensional object from the lower dimensional data. In our mode
 dimensional dataspace retaining essential features, the decoder model not only reconstructs a higher dimensional image but, also corrects 
 the gaze direction simultaneously.
 
-![] (GIF'.gif)
+![](GIF'.gif)
